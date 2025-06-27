@@ -1,4 +1,7 @@
-.next
-node_modules
+# .gitignore
+
+# Don't commit build files or dependencies
+.next/
+node_modules/
+dist/
 .env
-*.log
