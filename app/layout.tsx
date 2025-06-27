@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Leo Club",
-  description: "Youth leadership & service – Sponsored by Lions Club of Chennai XYZ"
+  description: "Youth leadership & service – Sponsored by Lions Club of Chennai"
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
