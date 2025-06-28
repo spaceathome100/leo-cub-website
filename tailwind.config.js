@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       animation: {
-        scrollLoopFast: "scrollLoop 20s linear infinite",  // ⏩ Mobile
+        scrollLoopFast: "scrollLoop 10s linear infinite",  // ⏩ Mobile
         scrollLoopSlow: "scrollLoop 60s linear infinite",  // 🐢 Desktop (≥ sm)
       },
     },

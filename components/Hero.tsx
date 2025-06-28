@@ -34,7 +34,7 @@ export default function Hero() {
         </p>
         <Link
           href="/take-action"
-          className="btn-primary bg-white text-[#145DA0] hover:bg-leoGold transition font-semibold"
+          className="btn-primary bg-leoGold text-[#145DA0] hover:bg-white transition font-semibold"
         >
           Take Action Now
         </Link>
