@@ -2,20 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .btn-primary {
-    @apply bg-leoGold text-leoBlue font-semibold py-2 px-6 rounded-full shadow hover:bg-yellow-400 transition;
-  }
+/* --- Custom Button Utilities --- */
+.btn-primary {
+  @apply bg-leoGold text-leoBlue font-semibold py-2 px-6 rounded-full shadow hover:bg-yellow-400 transition;
+}
 
-  .btn-secondary {
-    @apply bg-white text-leoBlue border border-leoBlue font-semibold py-2 px-6 rounded-full hover:bg-leoBlue hover:text-white transition;
-  }
+.btn-secondary {
+  @apply bg-white text-leoBlue border border-leoBlue font-semibold py-2 px-6 rounded-full hover:bg-leoBlue hover:text-white transition;
+}
 
-  .bg-primary {
-    @apply bg-leoBlue text-white;
-  }
+.bg-primary {
+  @apply bg-leoBlue text-white;
+}
 
-  .text-highlight {
-    @apply text-leoGold;
+.text-highlight {
+  @apply text-leoGold;
+}
+
+/* --- Swiper Carousel Pagination (Dots) --- */
+.custom-swiper .swiper-pagination {
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+/* --- Swiper Arrows --- */
+.swiper-button-prev,
+.swiper-button-next {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: #0C2D48; /* leoBlue */
+  padding: 0.5rem;
+}
+
+/* --- Actual arrow icons (adjust size here) --- */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 16px; /* adjust as needed */
+  color: #0C2D48;
+}
+
+/* --- Mobile: Hide arrows completely --- */
+@media (max-width: 767px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
   }
 }
