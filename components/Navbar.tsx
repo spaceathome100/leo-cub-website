@@ -23,11 +23,11 @@ export function Navbar() {
 
   return (
     <>
-      <header className="bg-leoRed text-white shadow z-50 relative">
+      <header className="bg-leoBlue text-white shadow-md z-50 fixed top-0 w-full">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Leo Club Logo" width={60} height={60} className="rounded-full" />
-            <span className="text-2xl font-bold uppercase tracking-wide">Leo Club</span>
+            <Image src="/logo.png" alt="Leo Club Logo" width={50} height={50} className="rounded-full" />
+            <span className="text-2xl font-bold uppercase tracking-wide text-leoGold">Leo Club</span>
           </Link>
 
           <button className="md:hidden" onClick={() => setIsOpen(true)} aria-label="Open Menu">
@@ -67,7 +67,7 @@ export function Navbar() {
             />
 
             <motion.aside
-              className="fixed top-0 right-0 w-64 h-full bg-leoRed text-white z-50 shadow-lg p-6 flex flex-col"
+              className="fixed top-0 right-0 w-64 h-full bg-leoBlue text-white z-50 shadow-lg p-6 flex flex-col"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -79,7 +79,7 @@ export function Navbar() {
                 </svg>
               </button>
 
-              <nav className="flex flex-col gap-3">
+              <nav className="flex flex-col gap-4">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}

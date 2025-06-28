@@ -3,9 +3,17 @@
 @tailwind utilities;
 
 .btn-primary {
-  @apply bg-leoGold text-leoRed font-semibold py-2 px-6 rounded-full shadow hover:bg-yellow-400 transition;
+  @apply bg-leoGold text-leoBlue font-semibold py-2 px-6 rounded-full shadow hover:bg-yellow-400 transition;
 }
 
 .btn-secondary {
-  @apply border border-leoRed text-leoRed font-semibold py-2 px-6 rounded-full shadow hover:bg-leoRed hover:text-white transition;
+  @apply bg-white text-leoBlue border border-leoBlue font-semibold py-2 px-6 rounded-full hover:bg-leoBlue hover:text-white transition;
+}
+
+.bg-primary {
+  @apply bg-leoBlue text-white;
+}
+
+.text-highlight {
+  @apply text-leoGold;
 }
