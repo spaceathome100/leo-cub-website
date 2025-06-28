@@ -5,21 +5,31 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaFacebook, FaLinkedin, FaChevronDown } from "react-icons/fa";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/take-action", label: "Take Action" },
+  {
+    label: "Take Action",
+    dropdown: [
+      { href: "/take-action/blood-donation", label: "Blood Donation" },
+      { href: "/take-action/blood-request", label: "Request Blood" },
+      { href: "/take-action/volunteer", label: "Volunteer" },
+      { href: "/take-action/awareness", label: "Awareness Events" },
+    ],
+  },
   { href: "/impact-stories", label: "Impact Stories" },
   { href: "/transparency", label: "Transparency" },
   { href: "/our-lion-partners", label: "Our Lion Partners" },
   { href: "/our-team", label: "Our Team" },
-  { href: "/about-us", label: "About Us" }
+  { href: "/about-us", label: "About Us" },
 ];
 
 export function Navbar() {
   const path = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
 
   return (
     <>
@@ -36,18 +46,49 @@ export function Navbar() {
             </svg>
           </button>
 
+          {/* Desktop Navigation */}
           <nav className="hidden md:block">
-            <ul className="flex gap-6 text-sm font-medium">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`hover:text-leoGold transition ${
-                      path === link.href ? "text-leoGold font-semibold" : ""
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
+            <ul className="flex gap-6 text-sm font-medium relative">
+              {navLinks.map((link, index) => (
+                <li key={index} className="relative">
+                  {link.dropdown ? (
+                    <div className="relative">
+                      <button
+                        onClick={() => setDropdownOpen((prev) => !prev)}
+                        className="flex items-center gap-1 text-white hover:text-leoGold transition"
+                      >
+                        {link.label}
+                        <FaChevronDown className="w-3 h-3 mt-0.5" />
+                      </button>
+
+                      {dropdownOpen && (
+                        <div
+                          onMouseLeave={() => setDropdownOpen(false)}
+                          className="absolute top-full left-0 mt-2 w-48 bg-white text-leoBlue rounded-md shadow-lg z-50"
+                        >
+                          {link.dropdown.map((sublink) => (
+                            <Link
+                              key={sublink.href}
+                              href={sublink.href}
+                              className="block px-4 py-2 text-sm text-leoBlue hover:bg-leoBlue/10"
+                              onClick={() => setDropdownOpen(false)}
+                            >
+                              {sublink.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={`text-sm text-white hover:text-leoGold transition ${
+                        path === link.href ? "text-leoGold font-semibold" : ""
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -55,6 +96,7 @@ export function Navbar() {
         </div>
       </header>
 
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -79,23 +121,53 @@ export function Navbar() {
                 </svg>
               </button>
 
-              <nav className="flex flex-col gap-4">
+              <nav className="flex flex-col gap-4 text-sm">
                 {navLinks.map((link, index) => (
                   <motion.div
-                    key={link.href}
+                    key={index}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Link
-                      href={link.href}
-                      className={`block py-2 px-2 border-b border-white/20 ${
-                        path === link.href ? "text-leoGold font-semibold" : "hover:text-leoGold"
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
+                    {link.dropdown ? (
+                      <div className="border-b border-white/20">
+                        <button
+                          onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                          className="w-full text-left py-2 flex justify-between items-center text-white font-semibold hover:text-leoGold"
+                        >
+                          {link.label}
+                          <FaChevronDown
+                            className={`w-4 h-4 transition-transform duration-300 ${
+                              mobileDropdownOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        {mobileDropdownOpen && (
+                          <div className="pl-3 pb-2">
+                            {link.dropdown.map((sublink) => (
+                              <Link
+                                key={sublink.href}
+                                href={sublink.href}
+                                className="block text-sm py-1 text-white hover:text-leoGold"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {sublink.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className={`block py-2 px-2 border-b border-white/20 text-white text-sm ${
+                          path === link.href ? "text-leoGold font-semibold" : "hover:text-leoGold"
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
               </nav>
