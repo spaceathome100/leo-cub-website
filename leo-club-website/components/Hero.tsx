@@ -33,7 +33,7 @@ export default function Hero() {
           Join the Leo Club and make a positive impact on our community today.
         </p>
         <Link
-          href="/take-action"
+          href="/take-action/blood-donation"
           className="btn-primary bg-leoGold text-[#145DA0] hover:bg-white transition font-semibold"
         >
           Take Action Now
