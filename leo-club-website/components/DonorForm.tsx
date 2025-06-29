@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { db } from "@/lib/firebase"; // adjust this if needed
+import { db } from "@/lib/firebase"; //  adjust this if needed
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
