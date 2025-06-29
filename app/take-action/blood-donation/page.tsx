@@ -16,13 +16,14 @@ export default function BloodDonationPage() {
       >
         <h1 className="text-3xl md:text-5xl font-bold mb-4">Be a Hero. Donate Blood. Save Lives.</h1>
         <p className="text-lg md:text-xl mb-6">Your one donation can save up to three lives.</p>
+
         <div className="flex flex-col md:flex-row gap-4 justify-center">
           <Link href="/take-action/blood-donation/give">
             <button className="bg-leoGold text-leoBlue font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition">
               Give Blood
             </button>
           </Link>
-          <Link href="/take-action/blood-donation/request">
+          <Link href="/take-action/blood-donation/iwantblood">
             <button className="bg-leoBlue text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition">
               I Need Blood
             </button>
