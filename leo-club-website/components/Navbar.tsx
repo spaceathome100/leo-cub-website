@@ -13,7 +13,7 @@ const navLinks = [
     label: "Take Action",
     dropdown: [
       { href: "/take-action/blood-donation", label: "Blood Donation" },
-      { href: "/take-action/blood-request", label: "Request Blood" },
+      //{ href: "/take-action/blood-request", label: "Request Blood" },
       { href: "/take-action/volunteer", label: "Volunteer" },
       { href: "/take-action/awareness", label: "Awareness Events" },
     ],
@@ -82,9 +82,8 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href}
-                      className={`text-sm text-white hover:text-leoGold transition ${
-                        path === link.href ? "text-leoGold font-semibold" : ""
-                      }`}
+                      className={`text-sm text-white hover:text-leoGold transition ${path === link.href ? "text-leoGold font-semibold" : ""
+                        }`}
                     >
                       {link.label}
                     </Link>
@@ -137,9 +136,8 @@ export function Navbar() {
                         >
                           {link.label}
                           <FaChevronDown
-                            className={`w-4 h-4 transition-transform duration-300 ${
-                              mobileDropdownOpen ? "rotate-180" : ""
-                            }`}
+                            className={`w-4 h-4 transition-transform duration-300 ${mobileDropdownOpen ? "rotate-180" : ""
+                              }`}
                           />
                         </button>
                         {mobileDropdownOpen && (
@@ -160,9 +158,8 @@ export function Navbar() {
                     ) : (
                       <Link
                         href={link.href}
-                        className={`block py-2 px-2 border-b border-white/20 text-white text-sm ${
-                          path === link.href ? "text-leoGold font-semibold" : "hover:text-leoGold"
-                        }`}
+                        className={`block py-2 px-2 border-b border-white/20 text-white text-sm ${path === link.href ? "text-leoGold font-semibold" : "hover:text-leoGold"
+                          }`}
                         onClick={() => setIsOpen(false)}
                       >
                         {link.label}
