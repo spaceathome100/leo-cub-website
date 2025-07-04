@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { FaTint, FaHandsHelping, FaClock } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import LeoTalk from '@/components/LeoTalk';
 
 export default function BloodDonationPage() {
   return (
@@ -30,6 +31,8 @@ export default function BloodDonationPage() {
           </Link>
         </div>
       </motion.section>
+      {/* Leo Talk Section */}
+      <LeoTalk />
 
       {/* Why Donate Section */}
       <section className="max-w-5xl mx-auto py-16 px-6">

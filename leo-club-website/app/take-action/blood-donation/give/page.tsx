@@ -1,5 +1,5 @@
 import DonorForm from "@/components/DonorForm";
-
+import LeoTalk from "@/components/LeoTalk";
 export default function GiveBloodPage() {
   return (
     <main className="pt-[200px] pb-20 px-4 bg-white text-leoBlue">
@@ -8,6 +8,8 @@ export default function GiveBloodPage() {
         Fill out this form to join our blood donor registry and help save lives.
       </p>
       <DonorForm />
+      <LeoTalk />
+
     </main>
   );
 }

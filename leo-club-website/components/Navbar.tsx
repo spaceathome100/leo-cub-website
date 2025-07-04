@@ -13,7 +13,6 @@ const navLinks = [
     label: "Take Action",
     dropdown: [
       { href: "/take-action/blood-donation", label: "Blood Donation" },
-      //{ href: "/take-action/blood-request", label: "Request Blood" },
       { href: "/take-action/volunteer", label: "Volunteer" },
       { href: "/take-action/awareness", label: "Awareness Events" },
     ],
@@ -40,7 +39,14 @@ export function Navbar() {
             <span className="text-2xl font-bold uppercase tracking-wide text-leoGold">Leo Club</span>
           </Link>
 
-          <button className="md:hidden" onClick={() => setIsOpen(true)} aria-label="Open Menu">
+          <button
+            className="md:hidden"
+            onClick={() => {
+              setIsOpen(true);
+              document.getElementById("leo-menu-trigger")?.click();
+            }}
+            aria-label="Menu"
+          >
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -104,7 +110,10 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                document.getElementById("leo-menu-close-trigger")?.click();
+              }}
             />
 
             <motion.aside
@@ -114,7 +123,14 @@ export function Navbar() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <button className="self-end mb-6" onClick={() => setIsOpen(false)} aria-label="Close Menu">
+              <button
+                className="self-end mb-6"
+                onClick={() => {
+                  setIsOpen(false);
+                  document.getElementById("leo-menu-close-trigger")?.click();
+                }}
+                aria-label="Close Menu"
+              >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -147,7 +163,10 @@ export function Navbar() {
                                 key={sublink.href}
                                 href={sublink.href}
                                 className="block text-sm py-1 text-white hover:text-leoGold"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  document.getElementById("leo-menu-close-trigger")?.click();
+                                }}
                               >
                                 {sublink.label}
                               </Link>
@@ -160,7 +179,10 @@ export function Navbar() {
                         href={link.href}
                         className={`block py-2 px-2 border-b border-white/20 text-white text-sm ${path === link.href ? "text-leoGold font-semibold" : "hover:text-leoGold"
                           }`}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          setIsOpen(false);
+                          document.getElementById("leo-menu-close-trigger")?.click();
+                        }}
                       >
                         {link.label}
                       </Link>
@@ -184,6 +206,10 @@ export function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      {/* 🔊 Hidden Leo Talk triggers */}
+      <span id="leo-menu-trigger" className="hidden" data-leo-speak="Menu" />
+      <span id="leo-menu-close-trigger" className="hidden" data-leo-speak="Close menu" />
     </>
   );
 }

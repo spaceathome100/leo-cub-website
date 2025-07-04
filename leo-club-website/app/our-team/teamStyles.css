@@ -1,0 +1,4 @@
+/* teamStyles.css */
+.custom-swiper .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); /* buttery smooth */
+}

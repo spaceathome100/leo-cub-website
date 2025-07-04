@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import { useEffect, useState, useRef } from "react";
 import { Volume2, Square, Ear } from "lucide-react";
 
@@ -8,42 +9,72 @@ export default function LeoTalk() {
     const [activeElement, setActiveElement] = useState<HTMLElement | null>(null);
     const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+    // Load saved state
+    useEffect(() => {
+        const stored = localStorage.getItem("leoTalkEnabled");
+        if (stored === "true") setEnabled(true);
+    }, []);
+
+    // Listen for clicks when enabled
     useEffect(() => {
         if (!enabled) return;
 
         const handleClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            if (!target || target.closest(".leo-talk-ignore")) return;
+            if (!target) return;
 
+            // If ignored
+            if (target.closest(".leo-talk-ignore")) return;
+
+            // Custom text via data-leo-speak or aria-label
+            const customText =
+                target.getAttribute("data-leo-speak") ||
+                target.getAttribute("aria-label");
+
+            if (customText) {
+                speak(customText);
+                return;
+            }
+
+            // Read only direct text (not children)
             const clone = target.cloneNode(true) as HTMLElement;
             Array.from(clone.children).forEach((child) => child.remove());
-            const ownText = clone.innerText.trim();
+            const ownText = clone.innerText ? clone.innerText.trim() : "";
             if (!ownText) return;
 
-            speechSynthesis.cancel();
-            if (activeElement) activeElement.classList.remove("leo-highlight");
-
-            const utterance = new SpeechSynthesisUtterance(ownText);
-            utterance.lang = "en-IN";
-            utterance.rate = 1;
-            utterance.onend = () => {
-                target.classList.remove("leo-highlight");
-                setIsSpeaking(false);
-                setActiveElement(null);
-            };
-
-            target.classList.add("leo-highlight");
-            setActiveElement(target);
-            utteranceRef.current = utterance;
-            speechSynthesis.speak(utterance);
-            setIsSpeaking(true);
+            speak(ownText, target);
         };
 
         document.addEventListener("click", handleClick);
-        return () => {
-            document.removeEventListener("click", handleClick);
-        };
+        return () => document.removeEventListener("click", handleClick);
     }, [enabled, activeElement]);
+
+    // Speak something
+    const speak = (text: string, el?: HTMLElement) => {
+        if (!text) return;
+        speechSynthesis.cancel();
+
+        if (activeElement) activeElement.classList.remove("leo-highlight");
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-IN";
+        utterance.rate = 1;
+
+        utterance.onend = () => {
+            el?.classList.remove("leo-highlight");
+            setIsSpeaking(false);
+            setActiveElement(null);
+        };
+
+        if (el) {
+            el.classList.add("leo-highlight");
+            setActiveElement(el);
+        }
+
+        utteranceRef.current = utterance;
+        speechSynthesis.speak(utterance);
+        setIsSpeaking(true);
+    };
 
     const stopSpeaking = () => {
         speechSynthesis.cancel();
@@ -53,13 +84,14 @@ export default function LeoTalk() {
     };
 
     const toggleEnabled = () => {
-        stopSpeaking();
-        setEnabled((prev) => !prev);
+        const newState = !enabled;
+        setEnabled(newState);
+        localStorage.setItem("leoTalkEnabled", newState.toString());
+        if (!newState) stopSpeaking();
     };
 
     return (
         <>
-            {/* Floating Controls */}
             <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 items-end">
                 {isSpeaking && (
                     <button
@@ -71,6 +103,7 @@ export default function LeoTalk() {
                         Stop
                     </button>
                 )}
+
                 <button
                     onClick={toggleEnabled}
                     className={`${enabled ? "bg-leoBlue" : "bg-gray-400"
@@ -82,7 +115,7 @@ export default function LeoTalk() {
                 </button>
             </div>
 
-            {/* Highlight Style */}
+            {/* Highlight styles */}
             <style jsx global>{`
         .leo-highlight {
           outline: 3px solid #facc15;
