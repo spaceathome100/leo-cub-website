@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { db } from "../lib/firebase";
+import { db } from "@/lib/firebase"; // adjust path if needed
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 export default function IWantBloodForm() {
@@ -17,8 +17,7 @@ export default function IWantBloodForm() {
     hospitalContact: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState<null | boolean>(null);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -29,10 +28,12 @@ export default function IWantBloodForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setStatus("submitting");
+
     try {
       await addDoc(collection(db, "blood_requests"), {
         ...form,
+        age: Number(form.age),
         createdAt: serverTimestamp(),
       });
 
@@ -48,129 +49,153 @@ export default function IWantBloodForm() {
         hospitalContact: "",
       });
 
-      setSubmitted(true);
+      setStatus("success");
     } catch (error) {
       console.error("Error submitting form:", error);
-      setSubmitted(false);
+      setStatus("error");
     } finally {
-      setLoading(false);
+      setStatus("idle");
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow space-y-4"
-    >
-      <h2 className="text-2xl font-bold text-leoBlue">I Need Blood</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-4 text-center text-leoBlue">
+        I Need Blood
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-      <input
-        name="patientName"
-        placeholder="Patient Name"
-        value={form.patientName}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="patientName"
+          placeholder="Patient Name"
+          value={form.patientName}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="age"
-        type="number"
-        placeholder="Age"
-        value={form.age}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="age"
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={3}
+          placeholder="Age"
+          value={form.age}
+          onInput={(e) => {
+            const target = e.target as HTMLInputElement;
+            target.value = target.value.replace(/[^0-9]/g, "");
+          }}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <select
-        name="bloodGroup"
-        value={form.bloodGroup}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      >
-        <option value="">Select Blood Group</option>
-        {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
-          <option key={bg} value={bg}>
-            {bg}
-          </option>
-        ))}
-      </select>
+        <select
+          name="bloodGroup"
+          value={form.bloodGroup}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        >
+          <option value="">Select Blood Group</option>
+          {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((bg) => (
+            <option key={bg} value={bg}>
+              {bg}
+            </option>
+          ))}
+        </select>
 
-      <input
-        name="attenderName"
-        placeholder="Attender Name"
-        value={form.attenderName}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="attenderName"
+          placeholder="Attender Name"
+          value={form.attenderName}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="contactNumber"
-        placeholder="Contact Number"
-        value={form.contactNumber}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="contactNumber"
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]{10}"
+          maxLength={10}
+          placeholder="Contact Number"
+          value={form.contactNumber}
+          onInput={(e) => {
+            const target = e.target as HTMLInputElement;
+            target.value = target.value.replace(/[^0-9]/g, "");
+          }}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="email"
-        type="email"
-        placeholder="Email Address"
-        value={form.email}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          value={form.email}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="location"
-        placeholder="Location"
-        value={form.location}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="location"
+          placeholder="City / Location"
+          value={form.location}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="hospitalName"
-        placeholder="Hospital Name"
-        value={form.hospitalName}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="hospitalName"
+          placeholder="Hospital Name"
+          value={form.hospitalName}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <input
-        name="hospitalContact"
-        placeholder="Hospital Contact Number"
-        value={form.hospitalContact}
-        onChange={handleChange}
-        required
-        className="w-full p-2 border rounded"
-      />
+        <input
+          name="hospitalContact"
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]{10}"
+          maxLength={10}
+          placeholder="Hospital Contact Number"
+          value={form.hospitalContact}
+          onInput={(e) => {
+            const target = e.target as HTMLInputElement;
+            target.value = target.value.replace(/[^0-9]/g, "");
+          }}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded-xl"
+        />
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-leoBlue text-white font-bold py-2 px-4 rounded"
-      >
-        {loading ? "Submitting..." : "Submit Request"}
-      </button>
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="w-full bg-leoBlue hover:bg-leoAccent text-white py-2 rounded-xl font-semibold transition"
+        >
+          {status === "submitting" ? "Submitting..." : "Submit"}
+        </button>
 
-      {submitted === true && (
-        <p className="text-green-600 font-medium">
-          ✅ Request sent to matching donors!
-        </p>
-      )}
-      {submitted === false && (
-        <p className="text-red-600 font-medium">
-          ❌ No donors matched or there was an error.
-        </p>
-      )}
-    </form>
+        {status === "success" && (
+          <p className="text-green-600 text-center">
+            Thank you! Your request has been submitted.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="text-red-600 text-center">
+            Something went wrong. Please try again later.
+          </p>
+        )}
+      </form>
+    </div>
   );
 }

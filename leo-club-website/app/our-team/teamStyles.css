@@ -1,4 +1,8 @@
-/* teamStyles.css */
-.custom-swiper .swiper-wrapper {
-  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); /* buttery smooth */
-}
+/* Flip‑card core — only what Tailwind doesn’t give us */
+
+/* Set the 3‑D perspective on the outer wrapper */
+.perspective { perspective: 1000px; }
+ .transform-style { transform-style: preserve-3d; }
+ .backface-hidden { backface-visibility: hidden; }
+ .rotate-y-180 { transform: rotateY(180deg); }
+ .duration-700 { transition-duration: 700ms; }

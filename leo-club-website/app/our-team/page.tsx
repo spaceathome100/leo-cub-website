@@ -1,12 +1,19 @@
 "use client";
+
 import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import Image from "next/image";
-import "swiper/css";
-import "swiper/css/pagination";
 import "./teamStyles.css";
 import LeoTalk from "@/components/LeoTalk";
+
+/**
+ * NOTE: Save the following utilities in `teamStyles.css` (same folder):
+ *
+ * .perspective { perspective: 1000px; }
+ * .transform-style { transform-style: preserve-3d; }
+ * .backface-hidden { backface-visibility: hidden; }
+ * .rotate-y-180 { transform: rotateY(180deg); }
+ * .duration-700 { transition-duration: 700ms; }
+ */
 
 const team = [
   {
@@ -31,73 +38,49 @@ const team = [
     name: "LEO SANTO BRIANA A",
     role: "VICE PRESIDENT",
     image: "/team/santo.png",
-    bio: [
-      "Grace under pressure.",
-      "Community first, always.",
-    ],
+    bio: ["Grace under pressure.", "Community first, always."],
   },
   {
     name: "LEO SHINENDRAN N",
     role: "SECRETARY",
     image: "/team/shinendran.png",
-    bio: [
-      "Order in every action.",
-      "Keeps the mission on schedule.",
-    ],
+    bio: ["Order in every action.", "Keeps the mission on schedule."],
   },
   {
     name: "LEO SRIVASTHAN H",
     role: "TREASURER",
     image: "/team/srivasthan.png",
-    bio: [
-      "Every rupee has a purpose.",
-      "Transparency is non‑negotiable.",
-    ],
+    bio: ["Every rupee has a purpose.", "Transparency is non‑negotiable."],
   },
   {
     name: "LEO PRATIMA DIXIT R",
     role: "MEMBERSHIP CHAIRPERSON",
     image: "/team/pratima.png",
-    bio: [
-      "Welcomes every new Leo like family.",
-      "Growth with heart.",
-    ],
+    bio: ["Welcomes every new Leo like family.", "Growth with heart."],
   },
   {
     name: "LEO KESHAV K",
     role: "LEADERSHIP CHAIRPERSON",
     image: "/team/keshav.png",
-    bio: [
-      "Turns potential into performance.",
-      "Leads by example.",
-    ],
+    bio: ["Turns potential into performance.", "Leads by example."],
   },
   {
     name: "LEO MANISH MADHAVAN K K",
     role: "SERVICE CHAIRPERSON",
     image: "/team/manish.png",
-    bio: [
-      "Action over words.",
-      "Weekends = volunteering.",
-    ],
+    bio: ["Action over words.", "Weekends = volunteering."],
   },
   {
     name: "LEO SIDHESH G S",
     role: "PUBLIC RELATION OFFICER",
     image: "/team/sidhesh.png",
-    bio: [
-      "Every story deserves a spotlight.",
-      "Amplifying Leo voices.",
-    ],
+    bio: ["Every story deserves a spotlight.", "Amplifying Leo voices."],
   },
   {
     name: "LEO AKSHAYA R G",
     role: "CHILDHOOD CANCER CHAIRPERSON",
     image: "/team/akshaya.png",
-    bio: [
-      "Hope is medicine.",
-      "Kids first, always.",
-    ],
+    bio: ["Hope is medicine.", "Kids first, always."],
   },
   {
     name: "LEO LAKSHITA M S",
@@ -112,19 +95,13 @@ const team = [
     name: "LEO DURGESH A",
     role: "DISASTER RELIEF CHAIRPERSON",
     image: "/team/durgesh.png",
-    bio: [
-      "First on-site, last to leave.",
-      "Prepared for every storm.",
-    ],
+    bio: ["First on-site, last to leave.", "Prepared for every storm."],
   },
   {
     name: "LEO SHRENICA CHAWDA A",
     role: "ENVIRONMENT CHAIRPERSON",
     image: "/team/shrenica.png",
-    bio: [
-      "Planet before profit.",
-      "Plants trees like confetti.",
-    ],
+    bio: ["Planet before profit.", "Plants trees like confetti."],
   },
   {
     name: "LEO KIRUTHIKA A B",
@@ -139,10 +116,7 @@ const team = [
     name: "LEO NALLAMALLI HRISHEEK",
     role: "HUNGER RELIEF CHAIRPERSON",
     image: "/team/hrisheek.png",
-    bio: [
-      "No plate should be empty.",
-      "Organises food drives weekly.",
-    ],
+    bio: ["No plate should be empty.", "Organises food drives weekly."],
   },
   {
     name: "LEO SORNALATHA V",
@@ -159,17 +133,14 @@ const team = [
     image: "/team/monikaa.png",
     bio: [
       "Building bridges between clubs.",
-      "Collaboration is her super-power.",
+      "Collaboration is her super‑power.",
     ],
   },
   {
     name: "LEO KARTIGAYINI K",
     role: "VISION CHAIRPERSON",
     image: "/team/kartigayini.png",
-    bio: [
-      "Eye care advocate.",
-      "Bringing clearer futures.",
-    ],
+    bio: ["Eye care advocate.", "Bringing clearer futures."],
   },
   {
     name: "LEO MANASADHEVI H",
@@ -183,7 +154,11 @@ const team = [
 ];
 
 export default function OurTeamPage() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
+
+  const handleFlip = (index: number) => {
+    setFlippedIndex((prev) => (prev === index ? null : index));
+  };
 
   return (
     <main className="bg-white py-24 px-4">
@@ -191,69 +166,70 @@ export default function OurTeamPage() {
         Meet Our Team
       </h1>
 
-      <Swiper
-        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        slidesPerView={1.1}
-        loop
-        centeredSlides
-        spaceBetween={-20}
-        pagination={{ clickable: true }}
-        speed={700}
-        breakpoints={{
-          640: { slidesPerView: 1.4, spaceBetween: -30 },
-          768: { slidesPerView: 2.1, spaceBetween: -40 },
-          1024: { slidesPerView: 3, spaceBetween: -60 },
-        }}
-        modules={[Pagination]}
-        className="max-w-7xl mx-auto custom-swiper"
-      >
-        {team.map((m, i) => {
-          const isActive = i === activeIndex;
-          return (
-            <SwiperSlide key={i} className="pt-12 pb-16 px-4">
-              <div
-                className={`mx-auto max-w-xs transition-all duration-700 ease-in-out transform ${isActive
-                  ? "scale-105 z-20 shadow-2xl"
-                  : "scale-90 opacity-80 blur-[0.3px] z-10"
-                  } bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-xl`}
-              >
-                <div className="w-full h-64 rounded-t-3xl overflow-hidden">
-                  {m.role === "PRESIDENT" ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto px-4">
+        {team.map((member, i) => (
+          <div
+            key={i}
+            className="group perspective w-72 h-[26rem] mx-auto"
+            onClick={() => handleFlip(i)}
+          >
+            <div
+              className={`relative w-full h-full transform-style preserve-3d duration-700 ease-in-out ${flippedIndex === i ? "rotate-y-180" : ""
+                }`}
+            >
+              {/* Front */}
+              <div className="absolute inset-0 backface-hidden bg-white border rounded-2xl overflow-hidden flex flex-col">
+                <div className="w-full h-72 overflow-hidden flex-shrink-0">
+                  {member.role === "PRESIDENT" ? (
                     <img
-                      src={m.image}
-                      alt={m.name}
+                      src={member.image}
+                      alt={member.name}
                       className="w-full h-full object-cover"
                       style={{ objectPosition: "10% 10%" }}
                     />
                   ) : (
                     <Image
-                      src={m.image}
-                      alt={m.name}
+                      src={member.image}
+                      alt={member.name}
                       width={400}
-                      height={256}
+                      height={320}
                       className="w-full h-full object-cover object-top"
                     />
                   )}
                 </div>
 
-                <div className="p-6 text-center">
-                  <h2 className="text-lg font-bold text-leoBlue leading-tight">
-                    {m.name}
-                  </h2>
-                  <p className="text-leoAccent text-xs font-semibold mb-4 tracking-wide uppercase">
-                    {m.role}
+                <div className="px-4 pt-3 pb-4 text-center">
+                  <h3 className="text-base font-bold text-leoBlue leading-snug">
+                    {member.name}
+                  </h3>
+                  <p className="text-leoAccent text-xs font-semibold uppercase tracking-wide mt-1">
+                    {member.role}
                   </p>
-                  <ul className="text-gray-600 text-sm space-y-1">
-                    {m.bio.map((line, j) => (
+                  <p className="text-xs text-gray-400 mt-1 italic">(click to read more)</p>
+                </div>
+              </div>
+
+              {/* Back */}
+              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-leoBlue text-white border rounded-2xl p-4 flex flex-col items-center justify-center text-sm overflow-hidden">
+                <div className="flex-1 flex flex-col justify-center overflow-y-auto max-h-full text-center px-2">
+                  <h4 className="text-lg font-bold mb-2 leading-snug">
+                    {member.name}
+                  </h4>
+                  <p className="text-leoAccent text-xs font-semibold uppercase tracking-wide mb-4">
+                    {member.role}
+                  </p>
+                  <ul className="space-y-1 text-sm">
+                    {member.bio.map((line, j) => (
                       <li key={j}>“{line}”</li>
                     ))}
                   </ul>
                 </div>
               </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <LeoTalk />
     </main>
   );

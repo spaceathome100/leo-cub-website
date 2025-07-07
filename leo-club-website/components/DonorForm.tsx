@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { db } from "@/lib/firebase"; //  adjust this if needed
+import { db } from "@/lib/firebase"; // adjust if needed
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
@@ -62,6 +62,8 @@ export default function DonorForm() {
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center text-leoBlue">Become a Blood Donor</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+
+        {/* Full Name */}
         <input
           type="text"
           name="fullName"
@@ -72,16 +74,25 @@ export default function DonorForm() {
           className="w-full p-2 border rounded-xl"
         />
 
+        {/* Age (Digits only) */}
         <input
-          type="number"
+          type="tel"
           name="age"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={3}
           placeholder="Age"
           value={formData.age}
+          onInput={(e) => {
+            const target = e.target as HTMLInputElement;
+            target.value = target.value.replace(/[^0-9]/g, "");
+          }}
           onChange={handleChange}
           required
           className="w-full p-2 border rounded-xl"
         />
 
+        {/* Blood Group */}
         <select
           name="bloodGroup"
           value={formData.bloodGroup}
@@ -97,16 +108,25 @@ export default function DonorForm() {
           ))}
         </select>
 
+        {/* Phone (Digits only) */}
         <input
           type="tel"
           name="phone"
+          inputMode="numeric"
+          pattern="[0-9]{10}"
+          maxLength={10}
           placeholder="Phone Number"
           value={formData.phone}
+          onInput={(e) => {
+            const target = e.target as HTMLInputElement;
+            target.value = target.value.replace(/[^0-9]/g, "");
+          }}
           onChange={handleChange}
           required
           className="w-full p-2 border rounded-xl"
         />
 
+        {/* Email */}
         <input
           type="email"
           name="email"
@@ -117,6 +137,7 @@ export default function DonorForm() {
           className="w-full p-2 border rounded-xl"
         />
 
+        {/* Location */}
         <input
           type="text"
           name="location"
@@ -127,6 +148,7 @@ export default function DonorForm() {
           className="w-full p-2 border rounded-xl"
         />
 
+        {/* Last Donation Date (Optional) */}
         <label className="block">
           <span className="text-gray-600">Last Donation Date (optional)</span>
           <input
@@ -138,6 +160,7 @@ export default function DonorForm() {
           />
         </label>
 
+        {/* Availability */}
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -149,6 +172,7 @@ export default function DonorForm() {
           <span>Available to donate now</span>
         </label>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-leoBlue hover:bg-leoAccent text-white py-2 rounded-xl font-semibold transition"
@@ -157,6 +181,7 @@ export default function DonorForm() {
           {status === "submitting" ? "Submitting..." : "Submit"}
         </button>
 
+        {/* Submission Status */}
         {status === "success" && (
           <p className="text-green-600 text-center">
             Thank you! Your information has been submitted.
