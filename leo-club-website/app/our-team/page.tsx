@@ -1,19 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import "./teamStyles.css";
 import LeoTalk from "@/components/LeoTalk";
-
-/**
- * NOTE: Save the following utilities in `teamStyles.css` (same folder):
- *
- * .perspective { perspective: 1000px; }
- * .transform-style { transform-style: preserve-3d; }
- * .backface-hidden { backface-visibility: hidden; }
- * .rotate-y-180 { transform: rotateY(180deg); }
- * .duration-700 { transition-duration: 700ms; }
- */
+import "./teamStyles.css"; // Optional if you want to keep custom styles
 
 const team = [
   { name: "LEO SHARAN KUMAR P B", role: "PRESIDENT", image: "/team/sharan.png", bio: ["Leading with vision and kindness.", "Believes service begins with empathy."] },
@@ -38,83 +27,51 @@ const team = [
 ];
 
 export default function OurTeamPage() {
-  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
-
-  const handleFlip = (index: number) => {
-    setFlippedIndex((prev) => (prev === index ? null : index));
-  };
-
   return (
     <main className="bg-white py-24 px-4 overflow-x-hidden">
-      <h1 className="text-5xl font-extrabold text-center text-leoBlue mb-16">
+      <h1 className="text-5xl font-extrabold text-center text-leoBlue mb-20">
         Meet Our Team
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto px-4">
-        {team.map((member, i) => (
+      <div className="space-y-12 max-w-6xl mx-auto">
+        {team.map((member, index) => (
           <div
-            key={i}
-            className="group perspective w-72 h-[26rem] mx-auto"
-            onClick={() => handleFlip(i)}
+            key={index}
+            className={`
+              flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12
+              bg-gray-50 shadow-md rounded-xl p-6
+              ${index % 2 === 1 ? "md:flex-row-reverse" : ""}
+            `}
+            style={{ minHeight: "320px" }}
           >
-            <div
-              className={`relative w-full h-full transform-style preserve-3d duration-700 ease-in-out ${flippedIndex === i ? "rotate-y-180" : ""
-                }`}
-            >
-              {/* Front */}
-              <div className="absolute inset-0 backface-hidden bg-white border rounded-2xl overflow-hidden flex flex-col">
-                <div className="w-full h-72 overflow-hidden flex-shrink-0">
-                  {member.role === "PRESIDENT" ? (
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                      style={{ objectPosition: "10% 10%" }}
-                    />
-                  ) : (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      width={400}
-                      height={320}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  )}
-                </div>
+            {/* Photo (uncropped) */}
+            <div className="flex-shrink-0 w-full max-w-[300px] h-[300px] bg-white rounded-lg overflow-hidden flex items-center justify-center border">
+              <Image
+                src={member.image}
+                alt={member.name}
+                width={300}
+                height={300}
+                className="w-full h-full object-contain"
+              />
+            </div>
 
-                <div className="px-4 pt-3 pb-4 text-center">
-                  <h3 className="text-base font-bold text-leoBlue leading-snug">
-                    {member.name}
-                  </h3>
-                  <p className="text-leoAccent text-xs font-semibold uppercase tracking-wide mt-1">
-                    {member.role}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1 italic">(click to read more)</p>
-                </div>
-              </div>
-
-              {/* Back */}
-              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-leoBlue text-white border rounded-2xl p-4 flex flex-col items-center justify-center text-sm overflow-hidden">
-                <div className="flex-1 flex flex-col justify-center overflow-y-auto max-h-full text-center px-2">
-                  <h4 className="text-lg font-bold mb-2 leading-snug">
-                    {member.name}
-                  </h4>
-                  <p className="text-leoAccent text-xs font-semibold uppercase tracking-wide mb-4">
-                    {member.role}
-                  </p>
-                  <ul className="space-y-1 text-sm">
-                    {member.bio.map((line, j) => (
-                      <li key={j}>“{line}”</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+            {/* Info */}
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-2xl font-bold text-leoBlue">{member.name}</h3>
+              <p className="text-leoAccent text-sm font-semibold uppercase mt-1">{member.role}</p>
+              <ul className="mt-4 text-gray-700 list-disc list-inside text-sm space-y-1">
+                {member.bio.map((line, i) => (
+                  <li key={i}>“{line}”</li>
+                ))}
+              </ul>
             </div>
           </div>
         ))}
       </div>
 
-      <LeoTalk />
+      <div className="mt-24">
+        <LeoTalk />
+      </div>
     </main>
   );
 }
