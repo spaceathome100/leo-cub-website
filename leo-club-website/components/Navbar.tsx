@@ -36,7 +36,7 @@ export function Navbar() {
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
           <Link href="/" className="flex items-center gap-3">
             <Image src="/logo.png" alt="Leo Club Logo" width={50} height={50} className="rounded-full" />
-            <span className="text-2xl font-bold uppercase tracking-wide text-leoGold">Leo Club</span>
+            <span className="text-2xl font-bold uppercase tracking-wide text-leoGold">Leo Club Of Hopevillie</span>
           </Link>
 
           <button

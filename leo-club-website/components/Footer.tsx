@@ -9,11 +9,7 @@ export function Footer() {
       <p className="mb-2">
         Sponsored by Lions Club of Chennai
       </p>
-      <div className="flex justify-center gap-4 mt-4 text-leoGold">
-        <a href="/about-us" className="hover:underline">About</a>
-        <a href="/take-action" className="hover:underline">Take Action</a>
-        <a href="/our-team" className="hover:underline">Our Team</a>
-      </div>
+
     </footer>
   );
 }
