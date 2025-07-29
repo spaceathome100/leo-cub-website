@@ -7,7 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata = {
-  title: "Leo Club",
+  title: "Leo Club Of Hopeville",
   description: "Youth leadership & service – Sponsored by Lions Club of Chennai"
 };
 

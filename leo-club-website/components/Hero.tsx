@@ -30,7 +30,7 @@ export default function Hero() {
           Serve Kindness
         </h2>
         <p className="max-w-2xl text-lg md:text-xl mb-8 mx-auto">
-          Join the Leo Club and make a positive impact on our community today.
+          Join the Leo Club Of Hopevillie and make a positive impact on our community today.
         </p>
         <Link
           href="/take-action/blood-donation"

@@ -13,13 +13,11 @@ const navLinks = [
     label: "Take Action",
     dropdown: [
       { href: "/take-action/blood-donation", label: "Blood Donation" },
-      { href: "/take-action/volunteer", label: "Volunteer" },
-      { href: "/take-action/awareness", label: "Awareness Events" },
-    ],
+      { href: "/take-action/volunteer", label: "Volunteer" },],
   },
   { href: "/impact-stories", label: "Impact Stories" },
   { href: "/transparency", label: "Transparency" },
-  { href: "/our-lion-partners", label: "Our Lion Partners" },
+  { href: "/Parent-Club", label: "Parent Club" },
   { href: "/our-team", label: "Our Team" },
   { href: "/about-us", label: "About Us" },
 ];
