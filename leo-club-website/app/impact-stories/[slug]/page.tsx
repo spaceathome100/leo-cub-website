@@ -1,25 +1,48 @@
-import stories from "../stories";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import ImpactStoryClient from "@/components/ImpactStoryClient";
 
-type Props = {
-    params: {
-        slug: string;
+export default function ImpactStoryPage() {
+  const params = useParams();
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+
+  const [story, setStory] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStory = async () => {
+      if (!slug) return;
+
+      try {
+        const q = query(collection(db, "impact_stories"), where("slug", "==", slug));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          setStory(snapshot.docs[0].data());
+        } else {
+          console.warn("Story not found in Firestore");
+          setStory(null);
+        }
+      } catch (err) {
+        console.error("Error fetching story:", err);
+      } finally {
+        setLoading(false);
+      }
     };
-};
 
-export function generateMetadata({ params }: Props): Metadata {
-    const story = stories.find((s) => s.slug === params.slug);
-    return {
-        title: story ? `${story.title} | Impact Story` : "Impact Story",
-        description: story?.description || "An inspiring community impact story",
-    };
-}
+    fetchStory();
+  }, [slug]);
 
-export default function ImpactStoryDetail({ params }: Props) {
-    const story = stories.find((s) => s.slug === params.slug);
-    if (!story) return notFound();
+  if (loading) {
+    return <div className="text-center py-20 text-gray-500">Loading story...</div>;
+  }
 
-    return <ImpactStoryClient story={story} />;
+  if (!story) {
+    return <div className="text-center py-20 text-red-500">Story not found.</div>;
+  }
+
+  return <ImpactStoryClient story={story} />;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import Image from "next/image";
@@ -7,14 +8,30 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
-import stories from "@/app/impact-stories/stories"; // ✅ adjust path if needed
+type Story = {
+  title: string;
+  date: string;
+  location: string;
+  slug: string;
+  description?: string;
+  images: string[];
+};
 
 export default function RecentActions() {
-  // Sort by date (newest first) and take top 3
-  const recentStories = [...stories]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 3);
+  const [stories, setStories] = useState<Story[]>([]);
+
+  useEffect(() => {
+    const q = query(collection(db, "impact_stories"), orderBy("date", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data: Story[] = snapshot.docs.map((doc) => doc.data() as Story);
+      setStories(data.slice(0, 3)); // only latest 3
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <section className="py-12 px-4 md:px-16 bg-gray-100" id="recent-actions">
@@ -36,18 +53,18 @@ export default function RecentActions() {
           slidesPerView={1}
           className="pb-20 px-2 sm:px-6 custom-swiper"
         >
-          {recentStories.map((story, index) => (
+          {stories.map((story, index) => (
             <SwiperSlide key={index}>
               <div className="bg-white rounded-lg shadow-md flex flex-col md:flex-row overflow-visible max-w-[95vw] sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl w-full mx-auto h-[460px] md:h-[360px]">
                 
                 {/* Left: Image */}
-                <div className="h-1/2 md:h-full md:w-1/2">
+                <div className="h-1/2 md:h-full md:w-1/2 bg-gray-100 flex items-center justify-center">
                   <Image
                     src={story.images[0]}
                     alt={story.title}
                     width={600}
                     height={400}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
 
@@ -58,7 +75,7 @@ export default function RecentActions() {
                       {story.title}
                     </h3>
                     <p className="text-gray-700 line-clamp-3">
-                      {story.description}
+                      {story.description || ""}
                     </p>
                   </div>
 
