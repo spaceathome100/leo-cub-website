@@ -11,7 +11,7 @@ export default function AdminProtected({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (!currentUser || currentUser.email !== "hariatprojects@gmail.com") {
+      if (!currentUser || currentUser.email !== "hariatprojects@gmail.com"&& currentUser.email !== "leomichaelsharan@gmail.com") {
         router.push("/admin"); // redirect to login
       } else {
         setUser(currentUser);

@@ -15,7 +15,7 @@ export default function AdminPage() {
       const result = await signInWithPopup(auth, provider);
 
       // ✅ Only allow your email
-      if (result.user.email !== "hariatprojects@gmail.com") {
+      if (result.user.email !== "hariatprojects@gmail.com" && result.user.email !== "leomichaelsharan@gmail.com") {
         alert("Unauthorized email. Access denied.");
         await signOut(auth);
         return;
