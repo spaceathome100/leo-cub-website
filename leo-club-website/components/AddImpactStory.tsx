@@ -41,8 +41,12 @@ const AddImpactStory = () => {
         })
       );
 
-      // auto-generate slug from title
-      const slug = title.toLowerCase().replace(/\s+/g, "-");
+      // auto-generate safe slug from title
+      const slug = title
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "") // remove special chars
+        .replace(/\s+/g, "-");    // replace spaces with hyphens
 
       // split description into paragraphs
       const content = description.split("\n").filter((p) => p.trim() !== "");
@@ -113,10 +117,16 @@ const AddImpactStory = () => {
           placeholder="Description (paragraph, new line starts a new paragraph)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full border p-2 rounded h-32 resize-none"
+          className="w-full border p-2 rounded h-32 resize-none whitespace-pre-wrap"
           required
         ></textarea>
 
+        {/* Live preview of description */}
+        <div className="mt-2 p-2 border bg-gray-50 rounded whitespace-pre-wrap text-gray-700">
+          {description || "Your description preview will appear here..."}
+        </div>
+
+        {/* Image upload */}
         <div>
           <input
             type="file"
@@ -128,6 +138,7 @@ const AddImpactStory = () => {
           <p className="text-sm text-gray-500 mt-1">Maximum 4 images allowed</p>
         </div>
 
+        {/* Image previews */}
         {images.length > 0 && (
           <div className="flex gap-2 flex-wrap mt-2">
             {images.map((img, idx) => (
