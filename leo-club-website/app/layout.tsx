@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
+import { Analytics } from "@vercel/analytics/next"
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
