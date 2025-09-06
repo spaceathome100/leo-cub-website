@@ -2,14 +2,14 @@ import "../styles/globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react";
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Leo Club Of Hopeville",
-  description: "Youth leadership & service – Sponsored by Lions Club of Chennai"
+  description: "Youth leadership & service – Sponsored by Lions Club of Chennai",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Navbar />
         <main className="flex-1 bg-gray-50">{children}</main>
         <Footer />
+        <Analytics /> {/* ✅ Vercel Analytics initialized */}
       </body>
     </html>
   );
