@@ -3,6 +3,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="flex-1 bg-gray-50">{children}</main>
         <Footer />
         <Analytics /> {/* ✅ Vercel Analytics initialized */}
+        <SpeedInsights /> {/* ✅ Vercel Speed Insights initialized */}
       </body>
     </html>
   );
